@@ -26,6 +26,7 @@ const wordDisplay = document.querySelector('.word-display');
 const guessesText = document.querySelector('.guesses-text');
 const hangmanImage = document.querySelector('.hangman-box img');
 const gameModal = document.querySelector('.game-modal');
+const incorrectLettersText = document.querySelector('.incorrect-letters-text');
 
 let currentWord, correctLetters=[], wrongGuessCount = 0;
 const maxGuesses = 6;
@@ -39,9 +40,13 @@ const getRandomWord = () => {
 };
 
 const gameOver = (winner) => {
-    setTimeout(() => {
+    // setTimeout(() => {
+        const modalText = winner ? `You found the word:` : `The correct word was:`;
+        gameModal.querySelector('img').src = `public/${winner ? 'victory' : 'lost'}.gif`;
+        gameModal.querySelector('h4').innerText = `${winner ? 'Congratulations!' : 'Game Over!'}`;
+        gameModal.querySelector('h4').src = `${modalText} <b>${currentWord}</b>`;
         gameModal.classList.add('show');
-    }, 3000)
+    // }, 3000)
 }
 
 // Event listener for the form submission and log the letter
@@ -64,7 +69,10 @@ const initGame = document.querySelector('form').addEventListener('submit', (e) =
     } else {
         // clicked letter does not exist update wrongGuessCount and img
         wrongGuessCount++;
-        hangmanImage.src = `/public/hangman-${wrongGuessCount}.png`
+        hangmanImage.src = `/public/hangman-${wrongGuessCount}.png`;
+
+        // Update the incorrect letters display
+        incorrectLettersText.innerText += enteredLetter + ' ';
     }
     guessesText.innerText = `${wrongGuessCount} / ${maxGuesses}`;
 
