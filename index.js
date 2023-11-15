@@ -37,6 +37,7 @@ const resetGame = () => {
     wrongGuessCount = 0;
     hangmanImage.src = `/public/hangman-${wrongGuessCount}.png`;
     guessesText.innerText = `${wrongGuessCount} / ${maxGuesses}`;
+    incorrectLettersText.innerText = '';
     wordDisplay.innerHTML = currentWord.word.split('').map(() => `<li class="letter"></li>`).join('');
     gameModal.classList.remove('show');
 }
