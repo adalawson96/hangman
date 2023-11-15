@@ -21,22 +21,33 @@ const wordList = [
     }
 ];
 
+const playAgainButton = document.querySelector('.play-again');
 const letterInput = document.querySelector('#letter');
 const wordDisplay = document.querySelector('.word-display');
 const guessesText = document.querySelector('.guesses-text');
 const hangmanImage = document.querySelector('.hangman-box img');
 const gameModal = document.querySelector('.game-modal');
 const incorrectLettersText = document.querySelector('.incorrect-letters-text');
-
-let currentWord, correctLetters=[], wrongGuessCount = 0;
+let currentWord, correctLetters, wrongGuessCount;
 const maxGuesses = 6;
+
+const resetGame = () => {
+    // reset all game variable and UI elements
+    correctLetters = [];
+    wrongGuessCount = 0;
+    hangmanImage.src = `/public/hangman-${wrongGuessCount}.png`;
+    guessesText.innerText = `${wrongGuessCount} / ${maxGuesses}`;
+    wordDisplay.innerHTML = currentWord.word.split('').map(() => `<li class="letter"></li>`).join('');
+    gameModal.classList.remove('show');
+}
 
 // Generate hint and matching word
 const getRandomWord = () => {
     currentWord = wordList[Math.floor(Math.random() * wordList.length)];
     console.log(currentWord.word);
     document.querySelector('.hint-text b').innerText = currentWord.hint;
-    wordDisplay.innerHTML = currentWord.word.split('').map(() => `<li class="letter"></li>`).join('');
+    // Reset the game
+    resetGame();
 };
 
 const gameOver = (winner) => {
@@ -82,3 +93,4 @@ const initGame = document.querySelector('form').addEventListener('submit', (e) =
 });
 
 getRandomWord();
+playAgainButton.addEventListener('click', getRandomWord);
